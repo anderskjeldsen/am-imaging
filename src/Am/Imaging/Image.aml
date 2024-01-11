@@ -1,0 +1,139 @@
+namespace Am.Imaging {
+
+    class Image() {
+        import Am.Lang
+
+        private var width: UShort
+        private var height: UShort
+        private var pixelFormat: PixelFormat
+        private var pixelIndices: UByte[]
+        private var pixelColors: UInt[]
+        private var palette: UInt[]
+
+        fun getPixelFormat(): PixelFormat {
+            return this.pixelFormat
+        }
+
+        fun getPixelIndices(): UByte[] {
+            if (this.pixelFormat != PixelFormat.Indexed) {
+                throw new Exception("Image is not indexed")
+            }
+            return this.pixelIndices
+        }
+
+        fun getPixelColors(): UInt[] {
+            if (this.pixelFormat != PixelFormat.ARGB) {
+                throw new Exception("Image is not ARGB")
+            }
+            return this.pixelColors
+        }
+
+        fun getPalette(): UInt[] {
+            if (this.pixelFormat != PixelFormat.Indexed) {
+                throw new Exception("Image is not indexed")
+            }
+            return this.palette
+        }
+
+        fun getWidth(): UShort {
+            return this.width
+        }
+
+        fun getHeight(): UShort {
+            return this.height
+        }
+
+        fun getPixelColor(x: UShort, y: UShort): UInt {
+            if (this.pixelFormat != PixelFormat.ARGB) {
+                throw new Exception("Image is not ARGB")
+            }
+
+            if (x >= this.width || y >= this.height) {
+                throw new Exception("Pixel out of bounds")
+            }
+
+            return this.pixelColors[y.toUInt() * this.width.toUInt() + x.toUInt()]
+        }
+
+        fun getPixelIndex(x: UShort, y: UShort): UByte {
+            if (this.pixelFormat != PixelFormat.Indexed) {
+                throw new Exception("Image is not indexed")
+            }
+
+            if (x >= this.width || y >= this.height) {
+                throw new Exception("Pixel out of bounds")
+            }
+
+            return this.pixelIndices[y.toUInt() * this.width.toUInt() + x.toUInt()]
+        }
+
+        fun setPixelColor(x: UShort, y: UShort, color: UInt) {
+            if (this.pixelFormat != PixelFormat.ARGB) {
+                throw new Exception("Image is not ARGB")
+            }
+
+            if (x >= this.width || y >= this.height) {
+                throw new Exception("Pixel out of bounds")
+            }
+
+            this.pixelColors[y.toUInt() * this.width.toUInt() + x.toUInt()] = color
+        }
+
+        fun setPixelIndex(x: UShort, y: UShort, index: UByte) {
+            if (this.pixelFormat != PixelFormat.Indexed) {
+                throw new Exception("Image is not indexed")
+            }
+
+            if (x >= this.width || y >= this.height) {
+                throw new Exception("Pixel out of bounds")
+            }
+
+            this.pixelIndices[y.toUInt() * this.width.toUInt() + x.toUInt()] = index
+        }
+
+        fun getPaletteColor(index: UByte): UInt {
+            if (this.pixelFormat != PixelFormat.Indexed) {
+                throw new Exception("Image is not indexed")
+            }
+
+            if (index >= this.palette.length()) {
+                throw new Exception("Palette index out of bounds")
+            }
+
+            return this.palette[index.toUInt()]
+        }
+
+        fun setPaletteColor(index: UByte, color: UInt) {
+            if (this.pixelFormat != PixelFormat.Indexed) {
+                throw new Exception("Image is not indexed")
+            }
+
+            if (index >= this.palette.length()) {
+                throw new Exception("Palette index out of bounds")
+            }
+
+            this.palette[index.toUInt()] = color
+        }
+
+        static fun createIndexed(width: UShort, height: UShort, paletteSize: UByte): Image {
+            var img = new Image()
+            var pixelCount = width.toUInt() * height.toUInt()
+            img.width = width
+            img.height = height
+            img.pixelFormat = PixelFormat.Indexed
+            img.pixelIndices = new UByte[pixelCount]
+            img.palette = new UInt[paletteSize.toUInt()]
+            return img
+        }
+
+        static fun createARGB(width: UShort, height: UShort): Image {
+            var img = new Image()
+            var pixelCount = width.toUInt() * height.toUInt()
+            img.width = width
+            img.height = height
+            img.pixelFormat = PixelFormat.ARGB
+            img.pixelColors = new UInt[pixelCount]
+            return img
+        }
+    }
+}

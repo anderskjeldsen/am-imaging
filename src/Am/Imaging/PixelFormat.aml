@@ -1,0 +1,7 @@
+namespace Am.Imaging {
+
+    enum PixelFormat {
+        Indexed = 1
+        ARGB = 2
+    }
+}
