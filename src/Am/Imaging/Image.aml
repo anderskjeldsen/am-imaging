@@ -122,7 +122,7 @@ namespace Am.Imaging {
             img.height = height
             img.pixelFormat = PixelFormat.Indexed
             img.pixelIndices = new UByte[pixelCount]
-            img.palette = new UInt[paletteSize.toUInt()]
+            img.palette = new UInt[paletteSize.toULong()]
             return img
         }
 
