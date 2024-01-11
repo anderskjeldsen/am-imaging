@@ -115,7 +115,7 @@ namespace Am.Imaging {
             this.palette[index.toUInt()] = color
         }
 
-        static fun createIndexed(width: UShort, height: UShort, paletteSize: UByte): Image {
+        static fun createIndexed(width: UShort, height: UShort, paletteSize: UShort): Image {
             var img = new Image()
             var pixelCount = width.toUInt() * height.toUInt()
             img.width = width
