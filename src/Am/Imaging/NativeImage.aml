@@ -1,0 +1,38 @@
+namespace Am.Imaging {
+
+    class NativeImage() {
+        import Am.Lang
+
+        private var width: UShort
+        private var height: UShort
+        private var pixelFormat: PixelFormat
+
+        fun getPixelFormat(): PixelFormat {
+            return this.pixelFormat
+        }
+
+        fun getWidth(): UShort {
+            return this.width
+        }
+
+        fun getHeight(): UShort {
+            return this.height
+        }
+
+        private native fun initFromPaletteImage(width: UShort, height: UShort, pixelFormat: PixelFormat, pixelIndices: Byte[], pixelColors: UInt[])
+        private native fun initFromARGBImage(width: UShort, height: UShort, pixelFormat: PixelFormat, pixelColors: UInt[])
+
+        static fun fromImage(image: Image): NativeImage {
+            var nativeImage = new NativeImage()
+            nativeImage.width = image.getWidth()
+            nativeImage.height = image.getHeight()
+            nativeImage.pixelFormat = image.getPixelFormat()
+            if (nativeImage.pixelFormat == PixelFormat.Indexed) {
+                nativeImage.initFromPaletteImage(image.getWidth(), image.getHeight(), image.getPixelFormat(), image.getPixelIndices(), image.getPixelColors())
+            } else {
+                nativeImage.initFromARGBImage(image.getWidth(), image.getHeight(), image.getPixelFormat(), image.getPixelColors())
+            }
+            return nativeImage
+        }
+    }
+}
