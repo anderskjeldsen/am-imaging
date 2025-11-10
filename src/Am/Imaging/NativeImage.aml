@@ -1,6 +1,6 @@
 namespace Am.Imaging {
 
-    class NativeImage() {
+    native class NativeImage() {
         import Am.Lang
 
         private var width: UShort
