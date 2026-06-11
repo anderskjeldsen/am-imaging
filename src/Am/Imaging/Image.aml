@@ -6,9 +6,9 @@ namespace Am.Imaging {
         private var width: UShort
         private var height: UShort
         private var pixelFormat: PixelFormat
-        private var pixelIndices: UByte[]
-        private var pixelColors: UInt[]
-        private var palette: UInt[]
+        private var pixelIndices: UByte[]? = null
+        private var pixelColors: UInt[]? = null
+        private var palette: UInt[]? = null
 
         fun getPixelFormat(): PixelFormat {
             return this.pixelFormat
